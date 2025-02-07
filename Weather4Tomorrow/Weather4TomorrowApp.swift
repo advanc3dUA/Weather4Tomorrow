@@ -9,9 +9,18 @@ import SwiftUI
 
 @main
 struct Weather4TomorrowApp: App {
+    private let weatherService = WeatherService()
+    private let weatherViewModel: WeatherViewModel
+    
+    init() {
+        self.weatherViewModel = WeatherViewModel(weatherService: weatherService)
+    
+    }
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            WeatherView()
+                .environmentObject(weatherViewModel)
         }
     }
 }
