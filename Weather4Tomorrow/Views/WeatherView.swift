@@ -19,9 +19,7 @@ struct WeatherView: View {
             }
         }
         .onAppear {
-            Task {
-                await viewModel.fetchWeather(latitude: 53.619653, longitude: 10.079969)
-            }
+            viewModel.startUpdatingWeather()
         }
     }
 }
