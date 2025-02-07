@@ -10,10 +10,11 @@ import SwiftUI
 @main
 struct Weather4TomorrowApp: App {
     private let weatherService = WeatherService()
+    private let geocodingService = GeocodingService()
     private let weatherViewModel: WeatherViewModel
     
     init() {
-        self.weatherViewModel = WeatherViewModel(weatherService: weatherService)
+        self.weatherViewModel = WeatherViewModel(weatherService: weatherService, geocodingService: geocodingService)
     
     }
     

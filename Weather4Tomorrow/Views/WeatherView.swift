@@ -13,6 +13,7 @@ struct WeatherView: View {
     var body: some View {
         VStack {
             if let weather = viewModel.currentWeather {
+                Text("City: \(viewModel.currentCityName)")
                 Text("Temperature: \(weather.current.temperature2m)°C")
             } else {
                 Text("Loading weather...")
@@ -26,5 +27,5 @@ struct WeatherView: View {
 
 #Preview {
     WeatherView()
-        .environmentObject(WeatherViewModel(weatherService: WeatherService()))
+        .environmentObject(WeatherViewModel(weatherService: WeatherService(), geocodingService: GeocodingService()))
 }
