@@ -16,6 +16,11 @@ struct ContentView: View {
             Text("Hello, world!")
         }
         .padding()
+        .onAppear {
+            Task {
+                try await WeatherService().fetchData(latitude: 53.619653, longitude: 10.079969)
+            }
+        }
     }
 }
 
