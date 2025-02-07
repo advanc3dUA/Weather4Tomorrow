@@ -8,8 +8,15 @@
 import Foundation
 import OpenMeteoSdk
 
-class WeatherService {
-    static func fetchData(latitude: Double, longitude: Double) async throws {
+class WeatherService: WeatherServiceProtocol {
+    private let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.timeZone = .gmt
+        formatter.dateFormat = "yyyy-MM-dd HH:mm"
+        return formatter
+    }()
+    
+    func fetchData(latitude: Double, longitude: Double) async throws -> WeatherData {
         let urlString = "https://api.open-meteo.com/v1/forecast?latitude=\(latitude)&longitude=\(longitude)&current=temperature_2m,weather_code&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Europe%2FBerlin&format=flatbuffers"
 
         guard let url = URL(string: urlString) else {
@@ -20,23 +27,22 @@ class WeatherService {
             throw WeatherServiceError.failedToFetchData
         }
         
-        print("LOG: number of objects in responses: \(responses.count)")
+        let response = responses[0]
+        let utcOffsetSeconds = response.utcOffsetSeconds
         
-        let utcOffsetSeconds = responses[0].utcOffsetSeconds
-        
-        guard let current = responses[0].current,
-              let hourly = responses[0].hourly,
-              let daily = responses[0].daily else {
+        guard let current = response.current,
+              let hourly = response.hourly,
+              let daily = response.daily else {
             throw WeatherServiceError.failedToExtractDataForcasts
         }
         
-        guard let currentVariables0 = current.variables(at: 0),
-              let currentVariables1 = current.variables(at: 1),
-              let hourlyVariables0 = hourly.variables(at: 0),
-              let hourlyVariables1 = hourly.variables(at: 1),
-              let dailyVariables0 = daily.variables(at: 0),
-              let dailyVariables1 = daily.variables(at: 1),
-              let dailyVariables2 = daily.variables(at: 2) else {
+        guard let currentTemp = current.variables(at: 0),
+              let currentWeatherCode = current.variables(at: 1),
+              let hourlyTemp = hourly.variables(at: 0),
+              let hourlyWeatherCode = hourly.variables(at: 1),
+              let dailyWeatherCode = daily.variables(at: 0),
+              let dailyTempMax = daily.variables(at: 1),
+              let dailyTempMin = daily.variables(at: 2) else {
             throw WeatherServiceError.receivedCorruptedData
         }
         
@@ -44,30 +50,22 @@ class WeatherService {
         let data = WeatherData(
             current: .init(
                 time: Date(timeIntervalSince1970: TimeInterval(current.time + Int64(utcOffsetSeconds))),
-                temperature2m: currentVariables0.value,
-                weatherCode: currentVariables1.value
-            )
-            ,
+                temperature2m: currentTemp.value,
+                weatherCode: currentWeatherCode.value
+            ),
             hourly: .init(
                 time: hourly.getDateTime(offset: utcOffsetSeconds),
-                temperature2m: hourlyVariables0.values,
-                weatherCode: hourlyVariables1.values
-            )
-            ,
+                temperature2m: hourlyTemp.values,
+                weatherCode: hourlyWeatherCode.values
+            ),
             daily: .init(
                 time: daily.getDateTime(offset: utcOffsetSeconds),
-                weatherCode: dailyVariables0.values,
-                temperature2mMax: dailyVariables1.values,
-                temperature2mMin: dailyVariables2.values
+                weatherCode: dailyWeatherCode.values,
+                temperature2mMax: dailyTempMax.values,
+                temperature2mMin: dailyTempMin.values
             )
         )
-        
-        /// Timezone `.gmt` is deliberately used.
-        /// By adding `utcOffsetSeconds` before, local-time is inferred
-        let dateFormatter = DateFormatter()
-        dateFormatter.timeZone = .gmt
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
-        
+
         print("RESULTS ARE:")
         print("CURRENT LOCATION:")
         print("date: \(dateFormatter.string(from: data.current.time))")
@@ -89,5 +87,7 @@ class WeatherService {
             print("tempMin: \(data.daily.temperature2mMin[i])")
         }
         print("END_OF_DATA")
+        
+        return data
     }
 }
