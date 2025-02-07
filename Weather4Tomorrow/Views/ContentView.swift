@@ -18,7 +18,7 @@ struct ContentView: View {
         .padding()
         .onAppear {
             Task {
-                await WeatherService.fetchData(latitude: 53.619653, longitude: 10.079969)
+                try await WeatherService.fetchData(latitude: 53.619653, longitude: 10.079969)
             }
         }
     }
