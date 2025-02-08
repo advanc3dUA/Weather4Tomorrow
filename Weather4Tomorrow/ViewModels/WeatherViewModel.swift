@@ -16,6 +16,7 @@ class WeatherViewModel: ObservableObject {
     private var task: Task<Void, Never>?
     
     @Published var weather: WeatherUI?
+    @Published var error: String?
 
     init(weatherService: WeatherServiceProtocol, geocodingService: GeocodingServiceProtocol) {
         self.weatherService = weatherService
@@ -34,14 +35,22 @@ class WeatherViewModel: ObservableObject {
                 do {
                     weatherData = try await weatherService.fetchData(latitude: location.latitude, longitude: location.longitude)
                 } catch {
-                    print("Error fetching weather: \(error)")
+                    if let weatherServiceError = error as? WeatherServiceError {
+                        self.error = weatherServiceError.localizedDescription
+                    } else {
+                        self.error = "[Weather Service] Unknown error occured in startUpdatingWeather method"
+                    }
                 }
                 
                 do {
                     cityName = try await geocodingService.fetchCityName(latitude: location.latitude, longitude: location.longitude)
                 } catch {
                     cityName = "Unknown city"
-                    print("Error fetching city name: \(error)")
+                    if let geocodingServiceError = error as? GeocodingServiceError {
+                        self.error = geocodingServiceError.localizedDescription
+                    } else {
+                        self.error = "[Geocoding Service] Unknown error occured in startUpdatingWeather method"
+                    }
                 }
                 
                 if let data = weatherData {
