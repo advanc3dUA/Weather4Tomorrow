@@ -19,13 +19,13 @@ struct WeatherUI {
         let weatherIcon: String
     }
     
-    struct HourlyUI {
+    struct HourlyUI: Hashable {
         let time: String
         let temperature2m: Int
         let weatherIcon: String
     }
     
-    struct DailyUI {
+    struct DailyUI: Hashable {
         let time: String
         let weatherIcon: String
         let temperature2mMin: Int

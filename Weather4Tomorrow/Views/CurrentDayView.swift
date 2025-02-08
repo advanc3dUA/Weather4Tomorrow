@@ -20,6 +20,7 @@ struct CurrentDayView: View {
                 
                 Text(currentWeather.dayOfTheWeek)
                     .modifier(MediumTextModifier())
+                    .foregroundStyle(.secondary)
                     .padding(.horizontal, 20)
                 
                 Spacer()
@@ -38,7 +39,7 @@ struct CurrentDayView: View {
                 Spacer()
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: 300, alignment: .center)
+        .frame(maxWidth: .infinity, maxHeight: 150, alignment: .center)
     }
 }
 
