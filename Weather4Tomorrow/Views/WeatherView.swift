@@ -12,9 +12,10 @@ struct WeatherView: View {
 
     var body: some View {
         VStack {
-            if let weather = viewModel.currentWeather {
-                Text("City: \(viewModel.currentCityName)")
-                Text("Temperature: \(weather.current.temperature2m)°C")
+            if let weather = viewModel.weather {
+                Text("City: \(weather.cityName)")
+                Text("Temperature: \(weather.currentUI.temperature2m)°C")
+                Image(systemName: weather.currentUI.weatherCode)
             } else {
                 Text("Loading weather...")
             }

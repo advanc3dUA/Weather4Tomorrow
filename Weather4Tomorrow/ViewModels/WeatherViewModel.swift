@@ -15,8 +15,7 @@ class WeatherViewModel: ObservableObject {
     private var currentIndex = 0
     private var task: Task<Void, Never>?
     
-    @Published var currentWeather: WeatherData?
-    @Published var currentCityName: String = ""
+    @Published var weather: WeatherUI?
 
     init(weatherService: WeatherServiceProtocol, geocodingService: GeocodingServiceProtocol) {
         self.weatherService = weatherService
@@ -29,18 +28,24 @@ class WeatherViewModel: ObservableObject {
         task = Task {
             while !Task.isCancelled {
                 let location = coordinates[currentIndex]
+                var weatherData: WeatherData?
+                var cityName = ""
                 
                 do {
-                    currentWeather = try await weatherService.fetchData(latitude: location.latitude, longitude: location.longitude)
+                    weatherData = try await weatherService.fetchData(latitude: location.latitude, longitude: location.longitude)
                 } catch {
                     print("Error fetching weather: \(error)")
                 }
                 
                 do {
-                    currentCityName = try await geocodingService.fetchCityName(latitude: location.latitude, longitude: location.longitude)
+                    cityName = try await geocodingService.fetchCityName(latitude: location.latitude, longitude: location.longitude)
                 } catch {
-                    currentCityName = "Unknown city"
+                    cityName = "Unknown city"
                     print("Error fetching city name: \(error)")
+                }
+                
+                if let data = weatherData {
+                    self.weather = data.toWeatherUI(with: cityName)
                 }
                 
                 currentIndex = (currentIndex + 1) % coordinates.count

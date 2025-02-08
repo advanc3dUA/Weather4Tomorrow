@@ -64,30 +64,7 @@ class WeatherService: WeatherServiceProtocol {
                 temperature2mMax: dailyTempMax.values,
                 temperature2mMin: dailyTempMin.values
             )
-        )
-
-//        print("RESULTS ARE:")
-//        print("CURRENT LOCATION:")
-//        print("date: \(dateFormatter.string(from: data.current.time))")
-//        print("temp: \(data.current.temperature2m)")
-//        print("weatherCode: \(data.current.weatherCode)")
-//        
-//        print("START OF HOURLY:")
-//        for (i, date) in data.hourly.time.enumerated() {
-//            print("date: \(dateFormatter.string(from: date))")
-//            print("temp: \(data.hourly.temperature2m[i])")
-//            print("weatherCode: \(data.hourly.weatherCode[i])")
-//        }
-//        
-//        print("START OF DAILY:")
-//        for (i, date) in data.daily.time.enumerated() {
-//            print("date: \(dateFormatter.string(from: date))")
-//            print("weatherCode: \(data.daily.weatherCode[i])")
-//            print("tempMax: \(data.daily.temperature2mMax[i])")
-//            print("tempMin: \(data.daily.temperature2mMin[i])")
-//        }
-//        print("END_OF_DATA")
-        
+        )        
         return data
     }
 }
