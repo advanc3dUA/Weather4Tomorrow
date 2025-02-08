@@ -48,6 +48,15 @@ class WeatherViewModel: ObservableObject {
                     self.weather = data.toWeatherUI(with: cityName)
                 }
                 
+                print("Results in hourly:")
+                weather?.hourlyUI.forEach({ hourly in
+                    print("\(hourly.time); \(hourly.temperature2m), \(hourly.weatherCode)")
+                })
+                print("Results in daily:")
+                weather?.dailyUI.forEach({ daily in
+                    print("\(daily.time); \(daily.temperature2mMin), \(daily.temperature2mMax), \(daily.weatherCode)")
+                })
+                
                 currentIndex = (currentIndex + 1) % coordinates.count
                 
                 try? await Task.sleep(nanoseconds: Constants.updateTime)

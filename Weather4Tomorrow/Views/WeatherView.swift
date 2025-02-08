@@ -13,6 +13,7 @@ struct WeatherView: View {
     var body: some View {
         VStack {
             if let weather = viewModel.weather {
+                Text("Date: \(weather.currentUI.dayOfTheWeek)")
                 Text("City: \(weather.cityName)")
                 Text("Temperature: \(weather.currentUI.temperature2m)°C")
                 Image(systemName: weather.currentUI.weatherCode)
