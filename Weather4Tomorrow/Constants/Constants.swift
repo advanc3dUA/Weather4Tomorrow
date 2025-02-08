@@ -10,6 +10,9 @@ import Foundation
 struct Constants {
     static let coordinates: [Coordinate] = [
         Coordinate(latitude: 53.619653, longitude: 10.079969),
+        
+        Coordinate(latitude: 35.678670, longitude: 139.777409),
+
         Coordinate(latitude: 53.080917, longitude: 8.847533),
         Coordinate(latitude: 52.378385, longitude: 9.794862),
         Coordinate(latitude: 52.496385, longitude: 13.444041),

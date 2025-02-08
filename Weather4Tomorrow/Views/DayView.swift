@@ -1,0 +1,35 @@
+//
+//  DayView.swift
+//  Weather4Tomorrow
+//
+//  Created by Yuriy Gudimov on 08.02.25.
+//
+
+import SwiftUI
+
+struct DayView: View {
+    let dayData: WeatherUI.DailyUI
+    
+    var body: some View {
+        HStack(alignment: .center) {
+            Text(dayData.time)
+                .foregroundStyle(.secondary)
+            Spacer()
+            Text("\(dayData.temperature2mMin)°C / \(dayData.temperature2mMax)°C")
+            Spacer()
+            Image(systemName: dayData.weatherIcon)
+        }
+        .modifier(SmallTextModifier())
+        .padding()
+        .background(UltraThinMaterialBackgroundView().opacity(0.5))
+        .clipShape(RoundedRectangle(cornerRadius: 20))
+    }
+}
+
+#Preview {
+    DayView(dayData: .init(time: "01/02",
+                           weatherIcon: WeatherSymbols.cloudSleetFill.rawValue,
+                           temperature2mMin: 5,
+                           temperature2mMax: 10)
+    )
+}

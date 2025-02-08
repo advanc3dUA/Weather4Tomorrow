@@ -25,6 +25,12 @@ struct WeatherView: View {
                         .clipShape(.rect(cornerRadius: 25))
                         .padding(.horizontal, 25)
                     
+                    Next7DaysView(daysData: weather.dailyUI)
+                        .background(RegularMaterialBackgroundView().opacity(0.5))
+                        .clipShape(.rect(cornerRadius: 25))
+                        .padding(.horizontal, 25)
+                        .padding(.bottom, 50)
+                    
                     Spacer()
                 }
                 
