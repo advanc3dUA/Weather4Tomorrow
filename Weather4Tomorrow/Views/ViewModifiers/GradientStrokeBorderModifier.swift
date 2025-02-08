@@ -1,5 +1,5 @@
 //
-//  GradientOverlayModifier.swift
+//  GradientStrokeBorderModifier.swift
 //  Weather4Tomorrow
 //
 //  Created by Yuriy Gudimov on 08.02.25.

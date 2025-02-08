@@ -15,7 +15,7 @@ struct CurrentDayView: View {
         HStack {
             VStack(alignment: .leading) {
                 Text(cityName)
-                    .modifier(TitleTextModifier())
+                    .modifier(LargeTextModifier())
                     .padding(.horizontal, 20)
                 
                 Text(currentWeather.dayOfTheWeek)
