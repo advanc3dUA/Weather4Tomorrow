@@ -24,7 +24,7 @@ struct HourView: View {
         }
         .frame(minWidth: 50)
         .padding()
-        .background(UltraThinMaterialBackgroundView().opacity(0.5))
+        .background(RegularMaterialBackgroundView().opacity(0.7))
         .clipShape(RoundedRectangle(cornerRadius: 20))
     }
 }

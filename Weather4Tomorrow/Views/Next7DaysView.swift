@@ -11,14 +11,12 @@ struct Next7DaysView: View {
     let daysData: [WeatherUI.DailyUI]
     
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
             VStack(alignment: .center, spacing: 5) {
                 ForEach(daysData, id: \.self) { dayData in
                     DayView(dayData: dayData)
                 }
-            }
-            .padding(.all, 5)
         }
+            .padding(.all, 5)
     }
 }
 

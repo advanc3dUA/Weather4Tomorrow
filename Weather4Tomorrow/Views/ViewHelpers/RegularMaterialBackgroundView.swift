@@ -15,5 +15,5 @@ struct RegularMaterialBackgroundView: View {
 }
 
 #Preview {
-    UltraThinMaterialBackgroundView()
+    RegularMaterialBackgroundView()
 }
