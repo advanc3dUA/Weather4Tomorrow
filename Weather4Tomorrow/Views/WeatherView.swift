@@ -24,13 +24,13 @@ struct WeatherView: View {
             
             VStack {
                 if let weather = viewModel.weather {
-                    Text("Date: \(weather.currentUI.dayOfTheWeek)")
-                    Text("City: \(weather.cityName)")
-                    Text("Temperature: \(weather.currentUI.temperature2m)°C")
-                    Image(systemName: weather.currentUI.weatherCode)
+                    CurrentDayView(cityName: weather.cityName, currentWeather: weather.currentUI)
+                        .padding(.top, 25)
                 } else {
                     Text("Loading weather...")
                 }
+                
+                Spacer()
             }
             .onAppear {
                 viewModel.startUpdatingWeather()
