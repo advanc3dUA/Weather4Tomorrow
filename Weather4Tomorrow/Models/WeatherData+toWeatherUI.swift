@@ -23,11 +23,11 @@ extension WeatherData {
     private func createCurrentUI() -> WeatherUI.CurrentUI {
         let dayOfTheWeek = DateFormatter.dayOfTheWeekFormatter.string(from: self.current.time)
         let temperature = roundTemperature(self.current.temperature2m)
-        let weatherCode = convertToSFSymbolString(weatherCode: self.current.weatherCode)
+        let weatherIcon = convertWeatherCodeToSFSymbolString(weatherCode: self.current.weatherCode)
         return WeatherUI.CurrentUI(
             dayOfTheWeek: dayOfTheWeek,
             temperature2m: temperature,
-            weatherCode: weatherCode
+            weatherIcon: weatherIcon
         )
     }
     
@@ -42,11 +42,11 @@ extension WeatherData {
             return (0..<min(24, self.hourly.time.count)).map { index in
                 let time = DateFormatter.hourlyFormatter.string(from: self.hourly.time[index])
                 let temperature = roundTemperature(self.hourly.temperature2m[index])
-                let weatherCode = convertToSFSymbolString(weatherCode: self.hourly.weatherCode[index])
+                let weatherIcon = convertWeatherCodeToSFSymbolString(weatherCode: self.hourly.weatherCode[index])
                 return WeatherUI.HourlyUI(
                     time: time,
                     temperature2m: temperature,
-                    weatherCode: weatherCode)
+                    weatherIcon: weatherIcon)
             }
         }
         
@@ -56,11 +56,11 @@ extension WeatherData {
         let hourlyUI: [WeatherUI.HourlyUI] = (startIndex..<endIndex).map { index in
             let time = DateFormatter.hourlyFormatter.string(from: self.hourly.time[index])
             let temperature = roundTemperature(self.hourly.temperature2m[index])
-            let weatherCode = convertToSFSymbolString(weatherCode: self.hourly.weatherCode[index])
+            let weatherIcon = convertWeatherCodeToSFSymbolString(weatherCode: self.hourly.weatherCode[index])
             return WeatherUI.HourlyUI(
                 time: time,
                 temperature2m: temperature,
-                weatherCode: weatherCode)
+                weatherIcon: weatherIcon)
         }
         return hourlyUI
     }
@@ -68,12 +68,12 @@ extension WeatherData {
     private func createDailyUI() -> [WeatherUI.DailyUI] {
         let dailyUI: [WeatherUI.DailyUI] = self.daily.time.enumerated().map { index, timeDate in
             let time = DateFormatter.dailyFormatter.string(from: timeDate)
-            let weatherCode = convertToSFSymbolString(weatherCode: self.daily.weatherCode[index])
+            let weatherCode = convertWeatherCodeToSFSymbolString(weatherCode: self.daily.weatherCode[index])
             let temperatureMin = roundTemperature(self.daily.temperature2mMin[index])
             let temperatureMax = roundTemperature(self.daily.temperature2mMax[index])
             return WeatherUI.DailyUI(
                 time: time,
-                weatherCode: weatherCode,
+                weatherIcon: weatherCode,
                 temperature2mMin: temperatureMin,
                 temperature2mMax: temperatureMax
             )
@@ -85,7 +85,7 @@ extension WeatherData {
         Int(temperature.rounded())
     }
     
-    private func convertToSFSymbolString(weatherCode: Float) -> String {
+    private func convertWeatherCodeToSFSymbolString(weatherCode: Float) -> String {
         switch Int(weatherCode) {
             case 0:
                 // 0: Clear sky

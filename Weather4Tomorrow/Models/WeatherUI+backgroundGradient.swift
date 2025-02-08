@@ -9,7 +9,7 @@ import SwiftUI
 
 extension WeatherUI {
     var backgroundGradient: LinearGradient {
-        if let symbol = WeatherSymbols(rawValue: self.currentUI.weatherCode) {
+        if let symbol = WeatherSymbols(rawValue: self.currentUI.weatherIcon) {
             return symbol.gradient
         } else {
             return WeatherSymbols.questionmark.gradient

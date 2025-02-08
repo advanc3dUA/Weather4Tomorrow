@@ -16,18 +16,18 @@ struct WeatherUI {
     struct CurrentUI {
         let dayOfTheWeek: String
         let temperature2m: Int
-        let weatherCode: String
+        let weatherIcon: String
     }
     
     struct HourlyUI {
         let time: String
         let temperature2m: Int
-        let weatherCode: String
+        let weatherIcon: String
     }
     
     struct DailyUI {
         let time: String
-        let weatherCode: String
+        let weatherIcon: String
         let temperature2mMin: Int
         let temperature2mMax: Int
     }
