@@ -33,7 +33,6 @@ extension WeatherData {
     }
     
     private func createHourlyUI() -> [WeatherUI.HourlyUI] {
-        let now = Date()
         let calendar = Calendar.current
         
         guard let nextFullHour = calendar.nextDate(
