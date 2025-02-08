@@ -15,15 +15,11 @@ struct CurrentDayView: View {
         HStack {
             VStack(alignment: .leading) {
                 Text(cityName)
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .shadow(color: .white, radius: 10, x: 10)
+                    .modifier(TitleTextModifier())
                     .padding(.horizontal, 20)
                 
                 Text(currentWeather.dayOfTheWeek)
-                    .font(.headline)
-                    .fontWeight(.semibold)
-                    .shadow(color: .white, radius: 10, x: 10)
+                    .modifier(MediumTextModifier())
                     .padding(.horizontal, 20)
                 
                 Spacer()
@@ -33,15 +29,11 @@ struct CurrentDayView: View {
             
             VStack {
                 Text("\(currentWeather.temperature2m)°C")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .shadow(color: .white, radius: 10, x: 10)
+                    .modifier(TitleTextModifier())
                     .padding(.horizontal, 20)
                 
                 Image(systemName: currentWeather.weatherIcon)
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .shadow(color: .white, radius: 10, x: 10)
+                    .modifier(TitleTextModifier())
                 
                 Spacer()
             }
