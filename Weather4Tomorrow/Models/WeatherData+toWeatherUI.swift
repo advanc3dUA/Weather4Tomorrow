@@ -23,7 +23,6 @@ extension WeatherData {
     private func createCurrentUI() -> WeatherUI.CurrentUI {
         let dayOfTheWeek = DateFormatter.dayOfTheWeekFormatter.string(from: self.current.time)
         let temperature = roundTemperature(self.current.temperature2m)
-        print("received weatherCode: \(current.weatherCode)")
         let weatherCode = convertToSFSymbolString(weatherCode: self.current.weatherCode)
         return WeatherUI.CurrentUI(
             dayOfTheWeek: dayOfTheWeek,
@@ -90,59 +89,59 @@ extension WeatherData {
         switch Int(weatherCode) {
             case 0:
                 // 0: Clear sky
-                return "sun.max.fill"
+            return WeatherSymbols.sunMaxFill.rawValue
                 
             case 1, 2, 3:
                 // Mainly clear, partly cloudy, and overcast
-                return "cloud.sun.fill"
+                return WeatherSymbols.cloudSunFill.rawValue
                 
             case 45, 48:
                 // Fog and depositing rime fog
-                return "cloud.fog.fill"
+                return WeatherSymbols.cloudFogFill.rawValue
                 
             case 51, 53, 55:
                 // Drizzle: Light, moderate, and dense intensity
-                return "cloud.drizzle.fill"
+                return WeatherSymbols.cloudDrizzleFill.rawValue
                 
             case 56, 57:
                 // Freezing Drizzle: Light and dense intensity
-                return "cloud.sleet.fill"
+                return WeatherSymbols.cloudSleetFill.rawValue
                 
             case 61, 63, 65:
                 // Rain: Slight, moderate and heavy intensity
-                return "cloud.rain.fill"
+                return WeatherSymbols.cloudRainFill.rawValue
                 
             case 66, 67:
                 // Freezing Rain: Light and heavy intensity
-                return "cloud.rain.fill"
+                return WeatherSymbols.cloudRainFill.rawValue
                 
             case 71, 73, 75:
                 // Snow fall: Slight, moderate, and heavy intensity
-                return "cloud.snow.fill"
+                return WeatherSymbols.cloudSnowFill.rawValue
                 
             case 77:
                 // Snow grains
-                return "snow"
+            return WeatherSymbols.snow.rawValue
                 
             case 80, 81, 82:
                 // Rain showers: Slight, moderate, and violent
-                return "cloud.heavyrain.fill"
+                return WeatherSymbols.cloudHeavyRainFill.rawValue
                 
             case 85, 86:
                 // Snow showers slight and heavy
-                return "cloud.snow.fill"
+                return WeatherSymbols.cloudSnowFill.rawValue
                 
             case 95:
                 // Thunderstorm: Slight or moderate
-                return "cloud.bolt.fill"
+                return WeatherSymbols.cloudboltFill.rawValue
                 
             case 96, 99:
                 // Thunderstorm with slight and heavy hail
-                return "cloud.bolt.rain.fill"
+                return WeatherSymbols.cloudboltRainFill.rawValue
                 
             default:
                 // Unknown weather code
-                return "questionmark"
+                return WeatherSymbols.questionmark.rawValue
             }
     }
 }

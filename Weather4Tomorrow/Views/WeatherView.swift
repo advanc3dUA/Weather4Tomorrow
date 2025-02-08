@@ -11,18 +11,30 @@ struct WeatherView: View {
     @EnvironmentObject var viewModel: WeatherViewModel
 
     var body: some View {
-        VStack {
+        ZStack {
             if let weather = viewModel.weather {
-                Text("Date: \(weather.currentUI.dayOfTheWeek)")
-                Text("City: \(weather.cityName)")
-                Text("Temperature: \(weather.currentUI.temperature2m)°C")
-                Image(systemName: weather.currentUI.weatherCode)
+                weather.backgroundGradient
+                    .ignoresSafeArea()
             } else {
-                Text("Loading weather...")
+                LinearGradient(gradient: Gradient(colors: [.gray, .black]), startPoint: .top, endPoint: .bottom)
+                    .ignoresSafeArea()
             }
-        }
-        .onAppear {
-            viewModel.startUpdatingWeather()
+            
+            
+            
+            VStack {
+                if let weather = viewModel.weather {
+                    Text("Date: \(weather.currentUI.dayOfTheWeek)")
+                    Text("City: \(weather.cityName)")
+                    Text("Temperature: \(weather.currentUI.temperature2m)°C")
+                    Image(systemName: weather.currentUI.weatherCode)
+                } else {
+                    Text("Loading weather...")
+                }
+            }
+            .onAppear {
+                viewModel.startUpdatingWeather()
+            }
         }
     }
 }
