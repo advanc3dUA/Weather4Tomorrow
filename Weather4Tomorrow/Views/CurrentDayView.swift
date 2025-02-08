@@ -29,11 +29,11 @@ struct CurrentDayView: View {
             
             VStack {
                 Text("\(currentWeather.temperature2m)°C")
-                    .modifier(TitleTextModifier())
+                    .modifier(LargeTextModifier())
                     .padding(.horizontal, 20)
                 
                 Image(systemName: currentWeather.weatherIcon)
-                    .modifier(TitleTextModifier())
+                    .modifier(LargeTextModifier())
                 
                 Spacer()
             }
