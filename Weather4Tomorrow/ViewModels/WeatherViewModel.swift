@@ -5,7 +5,7 @@
 //  Created by Yuriy Gudimov on 07.02.25.
 //
 
-import Foundation
+import SwiftUI
 
 @MainActor
 class WeatherViewModel: ObservableObject {
@@ -17,10 +17,16 @@ class WeatherViewModel: ObservableObject {
     
     @Published var weather: WeatherUI?
     @Published var error: String?
+    @Published var currentBackground: LinearGradient
 
     init(weatherService: WeatherServiceProtocol, geocodingService: GeocodingServiceProtocol) {
         self.weatherService = weatherService
         self.geocodingService = geocodingService
+        self.currentBackground = LinearGradient(
+            gradient: Gradient(colors: [.gray, .black]),
+            startPoint: .top,
+            endPoint: .bottom
+        )
         startUpdatingWeather()
     }
 
@@ -53,19 +59,18 @@ class WeatherViewModel: ObservableObject {
                     }
                 }
                 
-                if let data = weatherData {
-                    self.weather = data.toWeatherUI(with: cityName)
+                withAnimation(.easeInOut(duration: 0.5)) {
+                    self.weather = nil
                 }
                 
-                print("Results in hourly:")
-                weather?.hourlyUI.forEach({ hourly in
-                    print("\(hourly.time); \(hourly.temperature2m), \(hourly.weatherIcon)")
-                })
-                print("Results in daily:")
-                weather?.dailyUI.forEach({ daily in
-                    print("\(daily.time); \(daily.temperature2mMin), \(daily.temperature2mMax), \(daily.weatherIcon)")
-                })
-                
+                if let data = weatherData {
+                    let newWeather = data.toWeatherUI(with: cityName)
+                    withAnimation(.easeInOut(duration: 0.5)) {
+                        self.weather = newWeather
+                        self.currentBackground = newWeather.backgroundGradient
+                    }
+                }
+                            
                 currentIndex = (currentIndex + 1) % coordinates.count
                 
                 try? await Task.sleep(nanoseconds: Constants.updateTime)

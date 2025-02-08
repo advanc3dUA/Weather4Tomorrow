@@ -18,9 +18,6 @@ class GeocodingService: GeocodingServiceProtocol {
                 if let error = error {
                     continuation.resume(throwing: error)
                 } else if let placemark = placemarks?.first, let city = placemark.locality {
-                    placemarks?.forEach({ placemark in
-                        print(placemark)
-                    })
                     continuation.resume(returning: city)
                 } else {
                     continuation.resume(throwing: GeocodingServiceError.failedToFindPlacemark)

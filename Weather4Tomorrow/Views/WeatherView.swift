@@ -11,31 +11,37 @@ struct WeatherView: View {
     @EnvironmentObject var viewModel: WeatherViewModel
     
     var body: some View {
-        ZStack(alignment: .top) {
+        Group {
             if let weather = viewModel.weather {
-                weather.backgroundGradient
-                    .ignoresSafeArea()
-                
                 VStack {
-                    CurrentDayView(cityName: weather.cityName, currentWeather: weather.currentUI)
+                    CurrentDayView(cityName: weather.cityName,
+                                   currentWeather: weather.currentUI)
                         .padding(.top, 25)
                     
                     Next24HoursView(hourlyData: weather.hourlyUI)
                         .background(RegularMaterialBackgroundView().opacity(0.3))
-                        .clipShape(.rect(cornerRadius: 20))
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
                         .padding(.horizontal, 25)
                     
                     Next7DaysView(daysData: weather.dailyUI)
                         .background(RegularMaterialBackgroundView().opacity(0.3))
-                        .clipShape(.rect(cornerRadius: 20))
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
                         .padding(.horizontal, 25)
                         .padding(.bottom, 25)
                     
                     Spacer()
                 }
-                
+                .background(viewModel.currentBackground.ignoresSafeArea())
+                .compositingGroup()
+                .id(weather.cityName)
+                .transition(
+                    AnyTransition.asymmetric(
+                        insertion: .move(edge: .trailing),
+                        removal: .move(edge: .leading)
+                    )
+                )
             } else {
-                LinearGradient(gradient: Gradient(colors: [.gray, .black]), startPoint: .top, endPoint: .bottom)
+                viewModel.currentBackground
                     .ignoresSafeArea()
             }
         }
