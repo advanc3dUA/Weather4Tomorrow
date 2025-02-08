@@ -22,6 +22,7 @@ struct Weather4TomorrowApp: App {
         WindowGroup {
             WeatherView()
                 .environmentObject(weatherViewModel)
+                .preferredColorScheme(.light)
         }
     }
 }
