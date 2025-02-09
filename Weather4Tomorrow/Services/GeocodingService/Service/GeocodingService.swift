@@ -20,7 +20,7 @@ class GeocodingService: GeocodingServiceProtocol {
                 } else if let placemark = placemarks?.first, let city = placemark.locality {
                     continuation.resume(returning: city)
                 } else {
-                    continuation.resume(throwing: GeocodingServiceError.failedToFindPlacemark)
+                    continuation.resume(throwing: AppError.GeocodingServiceError.failedToFindPlacemark)
                 }
             }
         }

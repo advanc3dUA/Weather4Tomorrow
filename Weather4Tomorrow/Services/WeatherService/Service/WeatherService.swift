@@ -20,11 +20,11 @@ class WeatherService: WeatherServiceProtocol {
         let urlString = "https://api.open-meteo.com/v1/forecast?latitude=\(latitude)&longitude=\(longitude)&current=temperature_2m,weather_code&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Europe%2FBerlin&format=flatbuffers"
 
         guard let url = URL(string: urlString) else {
-            throw WeatherServiceError.failedToCreateURL
+            throw AppError.WeatherServiceError.failedToCreateURL
         }
         
         guard let responses = try? await WeatherApiResponse.fetch(url: url) else {
-            throw WeatherServiceError.failedToFetchData
+            throw AppError.WeatherServiceError.failedToFetchData
         }
         
         let response = responses[0]
@@ -33,7 +33,7 @@ class WeatherService: WeatherServiceProtocol {
         guard let current = response.current,
               let hourly = response.hourly,
               let daily = response.daily else {
-            throw WeatherServiceError.failedToExtractDataForcasts
+            throw AppError.WeatherServiceError.failedToExtractDataForcasts
         }
         
         guard let currentTemp = current.variables(at: 0),
@@ -43,7 +43,7 @@ class WeatherService: WeatherServiceProtocol {
               let dailyWeatherCode = daily.variables(at: 0),
               let dailyTempMax = daily.variables(at: 1),
               let dailyTempMin = daily.variables(at: 2) else {
-            throw WeatherServiceError.receivedCorruptedData
+            throw AppError.WeatherServiceError.receivedCorruptedData
         }
         
         /// Note: The order of weather variables in the URL query and the `at` indices below need to match!

@@ -36,14 +36,14 @@ class WeatherViewModel: ObservableObject {
                 let location = coordinates[currentIndex]
                 var weatherData: WeatherData?
                 var cityName = ""
-                let unknownErrorString = "Unknown error occured in startUpdatingWeather method. Perhaps you need to check your internet connection or just ignore it and go for a walk, regardless of what the weather is like there"
+                
                 do {
                     weatherData = try await weatherService.fetchData(latitude: location.latitude, longitude: location.longitude)
                 } catch {
-                    if let weatherServiceError = error as? WeatherServiceError {
+                    if let weatherServiceError = error as? AppError.WeatherServiceError {
                         self.error = weatherServiceError.localizedDescription
                     } else {
-                        self.error = "[Weather Service] \(unknownErrorString)"
+                        self.error = AppError.WeatherViewModelError.failedToReceiveWeatherData.localizedDescription
                     }
                 }
                 
@@ -51,10 +51,10 @@ class WeatherViewModel: ObservableObject {
                     cityName = try await geocodingService.fetchCityName(latitude: location.latitude, longitude: location.longitude)
                 } catch {
                     cityName = "Unknown city"
-                    if let geocodingServiceError = error as? GeocodingServiceError {
+                    if let geocodingServiceError = error as? AppError.GeocodingServiceError {
                         self.error = geocodingServiceError.localizedDescription
                     } else {
-                        self.error = "[Geocoding Service] \(unknownErrorString)"
+                        self.error = AppError.WeatherViewModelError.failedToReceiveCityName.localizedDescription
                     }
                 }
                 
