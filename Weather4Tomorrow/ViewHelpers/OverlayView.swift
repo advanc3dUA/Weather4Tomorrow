@@ -1,5 +1,5 @@
 //
-//  LoadingView.swift
+//  OverlayView.swift
 //  Weather4Tomorrow
 //
 //  Created by Yuriy Gudimov on 09.02.25.
@@ -7,19 +7,24 @@
 
 import SwiftUI
 
-struct LoadingView: View {
+struct OverlayView: View {
+    let text: String
+    
     var body: some View {
         ZStack {
             Color.loadingBackgroud
                 .ignoresSafeArea()
             
-            Text("Loading...")
+            Text(text)
                 .foregroundStyle(.white)
                 .modifier(MediumTextModifier())
+                .lineLimit(.none)
+                .multilineTextAlignment(.center)
+                .padding()
         }
     }
 }
 
 #Preview {
-    LoadingView()
+    OverlayView(text: "Loading...")
 }

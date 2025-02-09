@@ -36,12 +36,19 @@ struct WeatherView: View {
                 .transition(
                     .opacity
                 )
+            } else if let error = viewModel.error {
+                ZStack {
+                    viewModel.currentBackground
+                        .ignoresSafeArea()
+                    
+                    OverlayView(text: error)
+                }
             } else {
                 ZStack {
                     viewModel.currentBackground
                         .ignoresSafeArea()
                     
-                    LoadingView()
+                    OverlayView(text: "Loading...")
                 }
             }
         }
