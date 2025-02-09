@@ -37,8 +37,12 @@ struct WeatherView: View {
                     .opacity
                 )
             } else {
-                viewModel.currentBackground
-                    .ignoresSafeArea()
+                ZStack {
+                    viewModel.currentBackground
+                        .ignoresSafeArea()
+                    
+                    LoadingView()
+                }
             }
         }
         .onAppear {
