@@ -22,4 +22,5 @@ struct Constants {
     ]
     
     static let updateTime: UInt64 = 10_000_000_000
+    static let cornerRadius: CGFloat = 20
 }

@@ -29,12 +29,12 @@ struct WeatherView: View {
                     
                     Next24HoursView(hourlyData: weather.hourlyUI)
                         .background(RegularMaterialBackgroundView().opacity(0.3))
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
                         .padding(.horizontal, 25)
                     
                     Next7DaysView(daysData: weather.dailyUI)
                         .background(RegularMaterialBackgroundView().opacity(0.3))
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
                         .padding(.horizontal, 25)
                         .padding(.bottom, 25)
                     

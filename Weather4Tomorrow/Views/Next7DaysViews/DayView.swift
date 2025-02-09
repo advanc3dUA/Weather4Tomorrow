@@ -23,7 +23,7 @@ struct DayView: View {
         .modifier(SmallTextModifier())
         .padding()
         .background(RegularMaterialBackgroundView().opacity(0.7))
-        .clipShape(RoundedRectangle(cornerRadius: 20))
+        .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
     }
 }
 

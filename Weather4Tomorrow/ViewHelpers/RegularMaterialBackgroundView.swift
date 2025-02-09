@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RegularMaterialBackgroundView: View {
     var body: some View {
-        RoundedRectangle(cornerRadius: 20)
+        RoundedRectangle(cornerRadius: Constants.cornerRadius)
             .fill(.regularMaterial)
     }
 }

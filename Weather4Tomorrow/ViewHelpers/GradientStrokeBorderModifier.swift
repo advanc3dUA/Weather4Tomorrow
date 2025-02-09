@@ -11,7 +11,7 @@ struct GradientStrokeBorderModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .overlay(
-                RoundedRectangle(cornerRadius: 20)
+                RoundedRectangle(cornerRadius: Constants.cornerRadius)
                     .strokeBorder(linearGradient)
             )
     }
