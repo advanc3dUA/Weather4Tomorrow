@@ -12,7 +12,7 @@ class WeatherViewModel: ObservableObject {
     private let weatherService: WeatherServiceProtocol
     private let geocodingService: GeocodingServiceProtocol
     private var coordinates: [Coordinate] = Constants.coordinates
-    private var currentIndex = 0
+    var currentIndex = 0
     private var task: Task<Void, Never>?
     
     @Published var weather: WeatherUI?
@@ -27,7 +27,6 @@ class WeatherViewModel: ObservableObject {
             startPoint: .top,
             endPoint: .bottom
         )
-        startUpdatingWeather()
     }
 
     func startUpdatingWeather() {

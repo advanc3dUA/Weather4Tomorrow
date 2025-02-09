@@ -52,9 +52,6 @@ struct WeatherView: View {
                 }
             }
         }
-        .onAppear {
-            viewModel.startUpdatingWeather()
-        }
     }
 }
 

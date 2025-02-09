@@ -12,10 +12,11 @@ struct Weather4TomorrowApp: App {
     private let weatherService = WeatherService()
     private let geocodingService = GeocodingService()
     private let weatherViewModel: WeatherViewModel
+    @Environment(\.scenePhase) private var scenePhase
     
     init() {
         self.weatherViewModel = WeatherViewModel(weatherService: weatherService, geocodingService: geocodingService)
-    
+        
     }
     
     var body: some Scene {
@@ -23,6 +24,16 @@ struct Weather4TomorrowApp: App {
             WeatherView()
                 .environmentObject(weatherViewModel)
                 .preferredColorScheme(.light)
+        }
+        .onChange(of: scenePhase) { newPhase in
+            switch newPhase {
+            case .active:
+                weatherViewModel.startUpdatingWeather()
+            case .background, .inactive:
+                weatherViewModel.stopUpdatingWeather()
+            @unknown default:
+                break
+            }
         }
     }
 }
