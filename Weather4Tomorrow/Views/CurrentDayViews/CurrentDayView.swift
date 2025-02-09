@@ -10,8 +10,8 @@ import SwiftUI
 struct CurrentDayView: View {
     let cityName: String
     let currentWeather: WeatherUI.CurrentUI
-    
-    @State private var isSymbolAnimating = false
+    @State private var isSymbolAnimatingOnAppearance = false
+    @State private var rotationAngle: Double = 0
 
     var body: some View {
         HStack {
@@ -35,20 +35,30 @@ struct CurrentDayView: View {
                     .modifier(LargeTextModifier())
                     .padding(.horizontal, 20)
                 
-                Image(systemName: currentWeather.weatherIcon)
-                    .renderingMode(.original)
-                    .modifier(LargeTextModifier())
-                    .scaleEffect(isSymbolAnimating ? 1.25 : 1.0)
-                    .onAppear {
-                        withAnimation(.easeInOut(duration: 0.5).repeatCount(5, autoreverses: true)) {
-                            isSymbolAnimating = true
-                        }
-                    }
+                weatherSymbol
                 
                 Spacer()
             }
         }
         .frame(maxWidth: .infinity, maxHeight: 150, alignment: .center)
+    }
+    
+    var weatherSymbol: some View {
+        Image(systemName: currentWeather.weatherIcon)
+            .renderingMode(.original)
+            .modifier(LargeTextModifier())
+            .scaleEffect(isSymbolAnimatingOnAppearance ? 1.25 : 1.0)
+            .rotationEffect(Angle(degrees: rotationAngle))
+            .onAppear {
+                withAnimation(.easeInOut(duration: 0.5).repeatCount(5, autoreverses: true)) {
+                    isSymbolAnimatingOnAppearance = true
+                }
+            }
+            .onTapGesture {
+                withAnimation(.easeInOut(duration: 0.5)) {
+                    rotationAngle += 360
+                }
+            }
     }
 }
 
