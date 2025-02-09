@@ -32,13 +32,9 @@ struct WeatherView: View {
                     Spacer()
                 }
                 .background(viewModel.currentBackground.ignoresSafeArea())
-//                .drawingGroup()
                 .id(weather.cityName)
                 .transition(
-                    AnyTransition.asymmetric(
-                        insertion: .move(edge: .trailing),
-                        removal: .move(edge: .leading)
-                    )
+                    .opacity
                 )
             } else {
                 viewModel.currentBackground
