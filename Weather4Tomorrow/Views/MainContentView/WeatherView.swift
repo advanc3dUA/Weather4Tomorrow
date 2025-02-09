@@ -11,12 +11,21 @@ struct WeatherView: View {
     @EnvironmentObject var viewModel: WeatherViewModel
     
     var body: some View {
-        Group {
+        ZStack {
+            viewModel.currentBackground
+                .ignoresSafeArea()
+                .zIndex(0)
+            
+            if let error = viewModel.error {
+                OverlayView(text: error)
+                    .zIndex(2)
+            }
+            
             if let weather = viewModel.weather {
                 VStack {
                     CurrentDayView(cityName: weather.cityName,
                                    currentWeather: weather.currentUI)
-                        .padding(.top, 25)
+                    .padding(.top, 25)
                     
                     Next24HoursView(hourlyData: weather.hourlyUI)
                         .background(RegularMaterialBackgroundView().opacity(0.3))
@@ -31,25 +40,12 @@ struct WeatherView: View {
                     
                     Spacer()
                 }
+                .zIndex(1)
                 .background(viewModel.currentBackground.ignoresSafeArea())
                 .id(weather.cityName)
                 .transition(
-                    .opacity
+                    AnyTransition.opacity.animation(.default).combined(with: .slide)
                 )
-            } else if let error = viewModel.error {
-                ZStack {
-                    viewModel.currentBackground
-                        .ignoresSafeArea()
-                    
-                    OverlayView(text: error)
-                }
-            } else {
-                ZStack {
-                    viewModel.currentBackground
-                        .ignoresSafeArea()
-                    
-                    OverlayView(text: "Loading...")
-                }
             }
         }
     }
