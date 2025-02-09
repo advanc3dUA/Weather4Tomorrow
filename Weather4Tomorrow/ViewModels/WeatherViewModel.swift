@@ -22,11 +22,7 @@ class WeatherViewModel: ObservableObject {
     init(weatherService: WeatherServiceProtocol, geocodingService: GeocodingServiceProtocol) {
         self.weatherService = weatherService
         self.geocodingService = geocodingService
-        self.currentBackground = LinearGradient(
-            gradient: Gradient(colors: [.gray, .black]),
-            startPoint: .top,
-            endPoint: .bottom
-        )
+        self.currentBackground = WeatherViewModel.setCurrentBackgroundInitialValue()
     }
 
     func startUpdatingWeather() {
@@ -94,5 +90,13 @@ class WeatherViewModel: ObservableObject {
                 return .failure(.weatherViewModelError(.failedToReceiveCityName))
             }
         }
+    }
+    
+    private static func setCurrentBackgroundInitialValue() -> LinearGradient {
+        LinearGradient(
+            gradient: Gradient(colors: [.gray, .black]),
+            startPoint: .top,
+            endPoint: .bottom
+        )
     }
 }
