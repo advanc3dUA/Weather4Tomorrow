@@ -28,9 +28,10 @@ struct Weather4TomorrowApp: App {
         .onChange(of: scenePhase) { newPhase in
             switch newPhase {
             case .active:
+                weatherViewModel.stopCurrentTask()
                 weatherViewModel.startUpdatingWeather()
             case .background, .inactive:
-                weatherViewModel.stopUpdatingWeather()
+                weatherViewModel.stopCurrentTask()
             @unknown default:
                 break
             }

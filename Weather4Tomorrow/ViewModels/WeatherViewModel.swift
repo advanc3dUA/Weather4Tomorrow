@@ -30,50 +30,69 @@ class WeatherViewModel: ObservableObject {
     }
 
     func startUpdatingWeather() {
-        task?.cancel()
         task = Task {
             while !Task.isCancelled {
                 let location = coordinates[currentIndex]
-                var weatherData: WeatherData?
-                var cityName = ""
+                let result = await updateWeather(for: location)
                 
-                do {
-                    weatherData = try await weatherService.fetchData(latitude: location.latitude, longitude: location.longitude)
-                } catch {
-                    if let weatherServiceError = error as? AppError.WeatherServiceError {
-                        self.error = weatherServiceError.localizedDescription
-                    } else {
-                        self.error = AppError.WeatherViewModelError.failedToReceiveWeatherData.localizedDescription
-                    }
-                }
-                
-                do {
-                    cityName = try await geocodingService.fetchCityName(latitude: location.latitude, longitude: location.longitude)
-                } catch {
-                    cityName = "Unknown city"
-                    if let geocodingServiceError = error as? AppError.GeocodingServiceError {
-                        self.error = geocodingServiceError.localizedDescription
-                    } else {
-                        self.error = AppError.WeatherViewModelError.failedToReceiveCityName.localizedDescription
-                    }
-                }
-                
-                if let data = weatherData {
-                    let newWeather = data.toWeatherUI(with: cityName)
+                switch result {
+                case .success(let newWeather):
                     self.weather = newWeather
                     self.currentBackground = newWeather.backgroundGradient
                     self.error = nil
+                    
+                case .failure(let error):
+                    self.error = error.localizedDescription
                 }
                             
                 currentIndex = (currentIndex + 1) % coordinates.count
-                
                 try? await Task.sleep(nanoseconds: Constants.updateTime)
             }
         }
     }
-
-    func stopUpdatingWeather() {
+    
+    func stopCurrentTask() {
         task?.cancel()
-        task = nil
+    }
+    
+    private func updateWeather(for location: Coordinate) async -> Result<WeatherUI, AppError> {
+        let weatherResult = await fetchWeatherData(for: location)
+        let cityResult = await fetchCityNameFor(latitude: location.latitude, longitude: location.longitude)
+        
+        switch (weatherResult, cityResult) {
+        case (.success(let weatherData), .success(let cityName)):
+            let weatherUI = weatherData.toWeatherUI(with: cityName)
+            return .success(weatherUI)
+        case (.failure(let error), _):
+            return .failure(error)
+        case (_, .failure(let error)):
+            return .failure(error)
+        }
+    }
+    
+    private func fetchWeatherData(for location: Coordinate) async -> Result<WeatherData, AppError> {
+        do {
+            let data = try await weatherService.fetchData(latitude: location.latitude, longitude: location.longitude)
+            return .success(data)
+        } catch {
+            if let error = error as? AppError.WeatherServiceError {
+                return .failure(.weatherServiceError(error))
+            } else {
+                return .failure(.weatherViewModelError(.failedToReceiveWeatherData))
+            }
+        }
+    }
+    
+    private func fetchCityNameFor(latitude: Double, longitude: Double) async -> Result<String, AppError> {
+        do {
+            let cityName = try await geocodingService.fetchCityName(latitude: latitude, longitude: longitude)
+            return .success(cityName)
+        } catch {
+            if let error = error as? AppError.GeocodingServiceError {
+                return .failure(.geoCodingServiceError(error))
+            } else {
+                return .failure(.weatherViewModelError(.failedToReceiveCityName))
+            }
+        }
     }
 }
