@@ -12,6 +12,5 @@ struct LargeTextModifier: ViewModifier {
         content
             .font(.largeTitle)
             .fontWeight(.bold)
-            .shadow(color: .white, radius: 10, x: 10)
     }
 }

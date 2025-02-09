@@ -20,6 +20,7 @@ struct HourView: View {
                 .modifier(MediumTextModifier())
             
             Image(systemName: hourData.weatherIcon)
+                .renderingMode(.original)
                 .modifier(MediumTextModifier())
         }
         .frame(minWidth: 50)

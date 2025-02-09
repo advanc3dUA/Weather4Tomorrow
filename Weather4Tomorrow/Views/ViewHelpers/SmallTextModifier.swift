@@ -12,6 +12,6 @@ struct SmallTextModifier: ViewModifier {
         content
             .font(.headline)
             .fontWeight(.light)
-            .shadow(color: .white, radius: 10, x: 10)
+            .shadow(color: .black.opacity(0.15), radius: 2, x: 2, y: 2)
     }
 }

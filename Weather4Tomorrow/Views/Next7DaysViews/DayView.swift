@@ -18,6 +18,7 @@ struct DayView: View {
             Text("\(dayData.temperature2mMin)°C / \(dayData.temperature2mMax)°C")
             Spacer()
             Image(systemName: dayData.weatherIcon)
+                .renderingMode(.original)
         }
         .modifier(SmallTextModifier())
         .padding()

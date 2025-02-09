@@ -34,6 +34,7 @@ struct CurrentDayView: View {
                     .padding(.horizontal, 20)
                 
                 Image(systemName: currentWeather.weatherIcon)
+                    .renderingMode(.original)
                     .modifier(LargeTextModifier())
                 
                 Spacer()
