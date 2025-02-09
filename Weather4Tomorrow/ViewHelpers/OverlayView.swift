@@ -12,7 +12,7 @@ struct OverlayView: View {
     
     var body: some View {
         ZStack {
-            Color.overlayBackgroud
+            Color.overlayBackground
                 .ignoresSafeArea()
             
             Text(text)
