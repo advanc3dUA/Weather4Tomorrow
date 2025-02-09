@@ -19,3 +19,8 @@ The app features smooth transitions between different locations and a playful an
 When the app moves to the background, it stops consuming data (and your precious internet bandwidth). Weather updates resume from the next location when you return to the foreground. Restarting the app resets the location list back to the beginning.
 ### Error & Loading States:
 During data loading or if an error occurs, the app overlays a faded view on top of the last successfully loaded content.
+## Preview
+<p align="center">
+      <img src="https://github.com/advanc3dUA/Weather4Tomorrow/raw/main/Example-1.png" alt= "project Logo" width="250">
+      <img src="https://github.com/advanc3dUA/Weather4Tomorrow/raw/main/Example-2.png" alt= "project Logo" width="250">
+</p>
