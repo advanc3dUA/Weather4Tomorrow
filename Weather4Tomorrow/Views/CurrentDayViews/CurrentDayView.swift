@@ -11,6 +11,8 @@ struct CurrentDayView: View {
     let cityName: String
     let currentWeather: WeatherUI.CurrentUI
     
+    @State private var isSymbolAnimating = false
+
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
@@ -36,6 +38,12 @@ struct CurrentDayView: View {
                 Image(systemName: currentWeather.weatherIcon)
                     .renderingMode(.original)
                     .modifier(LargeTextModifier())
+                    .scaleEffect(isSymbolAnimating ? 1.25 : 1.0)
+                    .onAppear {
+                        withAnimation(.easeInOut(duration: 0.5).repeatCount(5, autoreverses: true)) {
+                            isSymbolAnimating = true
+                        }
+                    }
                 
                 Spacer()
             }
