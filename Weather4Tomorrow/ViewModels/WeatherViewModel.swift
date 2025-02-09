@@ -58,17 +58,11 @@ class WeatherViewModel: ObservableObject {
                     }
                 }
                 
-                withAnimation(.easeOut(duration: 0.5)) {
-                    weather = nil
-                }
-                
                 if let data = weatherData {
                     let newWeather = data.toWeatherUI(with: cityName)
-                    withAnimation(.easeInOut(duration: 0.5)) {
-                        self.weather = newWeather
-                        self.currentBackground = newWeather.backgroundGradient
-                        self.error = nil
-                    }
+                    self.weather = newWeather
+                    self.currentBackground = newWeather.backgroundGradient
+                    self.error = nil
                 }
                             
                 currentIndex = (currentIndex + 1) % coordinates.count

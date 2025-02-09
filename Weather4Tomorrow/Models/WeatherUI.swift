@@ -32,3 +32,9 @@ struct WeatherUI {
         let temperature2mMax: Int
     }
 }
+
+extension WeatherUI: Equatable {
+    static func == (lhs: WeatherUI, rhs: WeatherUI) -> Bool {
+        lhs.cityName == rhs.cityName
+    }
+}

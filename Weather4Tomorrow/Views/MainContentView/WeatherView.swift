@@ -43,6 +43,7 @@ struct WeatherView: View {
                 .zIndex(1)
                 .background(viewModel.currentBackground.ignoresSafeArea())
                 .id(weather.cityName)
+                .animation(.easeInOut(duration: 0.5), value: weather)
                 .transition(
                     AnyTransition.opacity.animation(.default).combined(with: .slide)
                 )
