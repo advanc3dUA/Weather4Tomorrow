@@ -59,6 +59,10 @@ class WeatherViewModel: ObservableObject {
                     }
                 }
                 
+                withAnimation(.easeOut(duration: 0.5)) {
+                    weather = nil
+                }
+                
                 if let data = weatherData {
                     let newWeather = data.toWeatherUI(with: cityName)
                     withAnimation(.easeInOut(duration: 0.5)) {
